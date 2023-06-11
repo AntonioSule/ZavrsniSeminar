@@ -1,0 +1,71 @@
+﻿@page "/Admin/category-list"
+
+@using WebShopZavrsni.Models;
+@inject HttpClient httpClient;
+@inject NavigationManager navManager;
+
+<h3>Lista Kategorija</h3>
+<button type="button" @onclick="AddCategory" class="btn btn-info">Dodaj Kategoriju</button>
+<br />
+<ul class="lista-kategorija">
+    @foreach (var item in categories)
+    {
+        <li>
+            <div class="card" style="width: 25rem;">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        Naziv Kategorije:
+                        <br>
+                        <h5>
+                            @item.CategoryName
+                        </h5>
+
+                    </h4>
+
+                    <p class="card-text">
+                        <b>Opis:</b>
+                        <br>
+                        @item.CategoryDescription</p>
+                    <br>
+                    <button type="button" @onclick="()=>EditCategory(item.Id)" class="btn btn-primary">Uredi</button>
+                    <button type="button" @onclick="()=>DeleteCategory(item.Id)" class="btn btn-danger">Obriši</button>
+
+                </div>
+            </div>
+        </li>
+    }
+</ul>
+
+
+
+
+@code {
+    private List<Category> categories = new List<Category>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await httpClient.GetAsync("https://expertshopapi.azurewebsites.net/api/Categories");
+        if (result.IsSuccessStatusCode)
+        {
+            categories =await result.Content.ReadFromJsonAsync<List<Category>>();
+
+        }
+    }
+
+    public async void AddCategory()
+    {
+        navManager.NavigateTo("/Admin/add-category");
+
+    }
+    public async void EditCategory(int id)
+    {
+        navManager.NavigateTo($"/Admin/edit-category/{id}");
+
+    }
+    public async void DeleteCategory(int id)
+    {
+        navManager.NavigateTo($"/Admin/delete-category/{id}");
+
+    }
+
+}

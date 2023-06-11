@@ -1,0 +1,33 @@
+﻿@page "/kategorije"
+@using WebShopZavrsni.Models;
+@inject HttpClient httpClient;
+@inject NavigationManager navManager;
+
+<h3>Kategorije proizvoda</h3>
+
+<p> U nastavku Vam je prikazana lista svih naših kategorija:</p>
+
+<ul style="list-style:none;">
+    @foreach (var item in categories)
+    {
+        <li>
+            <div class="kartica-naslov">
+                <h4> @item.CategoryName </h4>
+            </div>
+        </li>
+    }
+</ul>
+
+
+@code {
+    private List<Category> categories = new List<Category>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await httpClient.GetAsync("https://expertshopapi.azurewebsites.net/api/Categories");
+        if (result.IsSuccessStatusCode)
+        {
+            categories = await result.Content.ReadFromJsonAsync<List<Category>>();
+        }
+    }
+}

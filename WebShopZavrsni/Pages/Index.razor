@@ -1,0 +1,47 @@
+﻿@page "/"
+@using WebShopZavrsni.Models;
+@inject HttpClient httpClient;
+@inject NavigationManager navManager;
+
+<PageTitle>Index</PageTitle>
+
+<h1 style="font-weight:600">Online Trgovina</h1>
+
+<div class="onama-index">
+    <div class="pocetak">Dobro došli u našu onlinu trgovinu E-Trgovina D.O.O.</div>
+    <div class="pocetak">U slučaju da ti se nešto svidi, nemoj se sramiti. Stisni na kupi i uživaj u svojim proizvodima</div>
+</div>
+
+<ul class="lista-kategorija">
+    @foreach (var item in categories)
+    {
+        <li>
+            <div class="kartica">
+                <div class="kartica-naslov">
+                    <h4> @item.CategoryName </h4>
+                </div>
+                <hr>
+                <div class="kartica-tijelo">
+                    <h5 class="card-title">Opis Kategorije:</h5>
+                    <p class="card-text">@item.CategoryDescription</p>
+                </div>
+            </div>
+        </li>
+    }
+</ul>
+
+
+
+
+@code {
+    private List<Category> categories = new List<Category>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await httpClient.GetAsync("https://expertshopapi.azurewebsites.net/api/Categories");
+        if (result.IsSuccessStatusCode)
+        {
+            categories = await result.Content.ReadFromJsonAsync<List<Category>>();
+        }
+    }
+}

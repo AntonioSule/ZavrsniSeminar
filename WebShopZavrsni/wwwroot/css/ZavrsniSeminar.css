@@ -1,0 +1,95 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+.top-row {
+    height: 3.5rem;
+    background-color: #1f242d;
+}
+
+.sidebar {
+    background: #1f242d;
+    width: 280px;
+}
+
+#naslov-nav {
+    font-family: 'Poppins',sans-serif;
+    font-weight: 600;
+}
+
+.top-row {
+    border-bottom: 0px;
+    background-color: none;
+}
+
+.nav-right-link {
+    color: black;
+}
+/*                                                                          */
+/*                   ovdje je sređivanje košarice GORNJI DESNI DIO          */
+/*                                                                          */
+
+#kosarica {
+    font-size: 30px;
+    font-weight: 600;
+}
+
+
+.arrow-menu {
+    font-size: 25px;
+    font-weight: 700;
+}
+
+
+.card {
+    max-width: 650px;
+    align-items: center;
+    text-align:center;
+
+}
+.btn-success {
+    font-size: 18px;
+    background: #1f242d;
+    border-color: #1f242d;
+    border-radius:8px;
+}
+
+.lista-kategorija {
+    list-style: none;
+    margin-top: 10px;
+    display: block;
+
+}
+
+.lista-kategorija li{
+    margin-top:20px;
+}
+
+.kartica{
+    border:1px solid;
+    max-width:600px;
+    min-height:145px;
+}
+.kartica-naslov{
+    margin-left:25px;
+    margin-top:8px;
+    font-weight:600;
+}
+
+.kartica-tijelo {
+    margin-left:35px;
+}
+
+.izmjena {
+    background: #1f242d;
+    color: white;
+}
+.lista-proizvoda-izmjena {
+    list-style:none;
+}
+
+.lista-proizvoda-izmjena li{
+    padding:10px;
+}

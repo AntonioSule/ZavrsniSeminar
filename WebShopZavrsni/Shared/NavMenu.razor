@@ -1,0 +1,83 @@
+﻿@using WebShopZavrsni.Models;
+@inject HttpClient httpClient;
+
+<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">Web Shop Završni</a>
+        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</div>
+
+<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
+    <nav class="flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Naslovna
+            </NavLink>
+        </div>
+        <!-- ovdje mi link i navigacija za administraciju-->
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="Admin/dashboard">
+                <span class="oi oi-account-login" id="administracija" aria-hidden="true"></span> Administracija
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="shopping-cart">
+                <span class="oi oi-cart" id="administracija" aria-hidden="true"></span> Košarica
+            </NavLink>
+        </div>
+
+
+        <div class="nav-item px-3">
+            <NavLink class="dropdown-item" href="kategorije" @onclick="()=>subMenu= !subMenu">
+                <span class="oi oi-arrow-circle-bottom arrow" aria-hidden="true"></span> Kategorije
+            </NavLink>
+            <!--        ovdje mi ide submeni za linkove kategorije      -->
+            @if (subMenu)
+            {
+                <!--ovdje mi je programilni dio za generiranje linkova kategorije-->
+                @foreach (var item in categories)
+                {
+                    var link = $"/category/{item.Id}/{item.CategoryName}";
+                    <div class="navbar-expand">
+                        <NavLink class="nav-link" href="@link">
+                            <span class="oi oi-list" aria-hidden="true"></span> @item.CategoryName
+                        </NavLink>
+                    </div>
+                }
+            }
+        </div>
+
+
+
+
+
+
+    </nav>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+    private bool subMenu;
+    private List<Category> categories = new List<Category>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await httpClient.GetAsync("https://expertshopapi.azurewebsites.net/api/Categories");
+
+        if (response.IsSuccessStatusCode)
+        {
+            categories = await response.Content.ReadFromJsonAsync<List<Category>>();
+        }
+    }
+
+
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}
